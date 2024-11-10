@@ -5,10 +5,27 @@ export default function posto() {
   const [modal, setModal] = useState(false)
   const [alcool, setAlcool] = useState('')
   const [gasolina, setGasolina] = useState('')
+  const [mensagem, setMensagem] = useState('')
 
   function abrirModal() {
-    setModal(true)
+    const media = alcool / gasolina;
+    if (media > 0.7) {
+      setMensagem('Melhor usar gasolina');
+    } else {
+      setMensagem('Melhor usar álcool');
+    }
+    
+    setModal(true);
   }
+
+  function fecharModal() {
+    setAlcool('')
+    setGasolina('')
+    setMensagem('')
+    setModal(false)
+  }
+    
+    
 
   return (
     <View style={styles.container}>
@@ -50,10 +67,17 @@ export default function posto() {
           <Image
             source={require('./src/img/gas.png')}
           />
-          <Text style={styles.titleModal}> Com os preços: </Text>
+
+          <Text style={styles.titleModal}> {mensagem} </Text>
+          <Text style={styles.subtitleModal}> Com os preços: </Text>
           <Text style={styles.txtModal}> Preço do Alcool: R$ {alcool} </Text>
           <Text style={styles.txtModal}> Preço do Gasolina: R$ {gasolina}</Text>
 
+          <TouchableOpacity
+            onPress={fecharModal}
+            style={styles.btn}>
+            <Text style={styles.txtBtn} >Recalcular</Text>
+          </TouchableOpacity>
         </View>
 
       </Modal>
@@ -123,13 +147,21 @@ const styles = StyleSheet.create({
   titleModal: {
     marginTop: 60,
     marginBottom: 20,
-    fontSize: 30,
-    color: '#fff',
-    fontWeight: 'bold', 
+    fontSize: 40,
+    color: '#00ff0d',
+    fontWeight: 'bold',
   },
 
-  txtModal:{
-    marginBottom: 10,
+  subtitleModal: {
+    marginTop: 40,
+    marginBottom: 20,
+    fontSize: 30,
+    color: '#fff',
+    fontWeight: 'bold',
+  },
+
+  txtModal: {
+    marginBottom: 25,
     color: '#fff',
     fontSize: 14,
   }
